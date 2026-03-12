@@ -10,7 +10,9 @@ import com.denzcoskun.imageslider.constants.ScaleTypes
 import com.denzcoskun.imageslider.interfaces.ItemClickListener
 import com.denzcoskun.imageslider.models.SlideModel
 import com.example.gharkakhana.R
+import com.example.gharkakhana.adapter.PopularAdapter
 import com.example.gharkakhana.databinding.FragmentHomeBinding
+import androidx.recyclerview.widget.LinearLayoutManager
 
 class HomeFragment : Fragment() {
 
@@ -37,7 +39,6 @@ class HomeFragment : Fragment() {
         imageList.add(SlideModel(R.drawable.banner3_foreground, ScaleTypes.FIT))
 
         val imageSlider=binding.imageSlider
-        imageSlider.setImageList(imageList)
         imageSlider.setImageList(imageList, ScaleTypes.FIT)
         imageSlider.setItemClickListener(object: ItemClickListener{
             override fun doubleClick(position: Int) {
@@ -51,6 +52,17 @@ class HomeFragment : Fragment() {
             }
 
         })
+        val foodName= listOf("Burger","Pizza","Hotdog","momo")
+        val price= listOf("$5","$8","$6","$5")
+        val popularFoodImages= listOf(
+            R.drawable.food4_background,
+            R.drawable.food3_background,
+            R.drawable.food2_background,
+            R.drawable.food1_background
+        )
+        val adapter= PopularAdapter(foodName,price,popularFoodImages)
+        binding.PopularRecyclerView.layoutManager= LinearLayoutManager(requireContext())
+        binding.PopularRecyclerView.adapter=adapter
     }
 
     override fun onDestroyView() {
