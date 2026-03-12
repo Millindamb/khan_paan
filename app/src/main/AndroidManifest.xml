@@ -15,6 +15,9 @@
             android:name=".empty"
             android:exported="false" />
         <activity
+            android:name=".ChooseLocationActivity"
+            android:exported="false" />
+        <activity
             android:name=".SigninActivity"
             android:exported="false" />
         <activity
