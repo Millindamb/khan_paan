@@ -12,29 +12,27 @@
         android:id="@+id/textView5"
         android:layout_width="103dp"
         android:layout_height="47dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="4dp"
         android:text="Developed by\n"
         android:textAlignment="center"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/nextButton"
         android:layout_width="111dp"
         android:layout_height="45dp"
-        android:layout_marginTop="92dp"
+        android:layout_marginBottom="56dp"
         android:background="@drawable/greenbuttongredient"
         android:text="next"
         android:textColor="@color/white"
         android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/textView5"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4"
-        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintEnd_toEndOf="@+id/textView12"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="@+id/textView12"
         tools:ignore="TouchTargetSizeCheck" />
 
     <ImageView
@@ -69,9 +67,9 @@
 
     <ImageView
         android:id="@+id/imageView7"
-        android:layout_width="297dp"
-        android:layout_height="284dp"
-        android:layout_marginTop="148dp"
+        android:layout_width="343dp"
+        android:layout_height="328dp"
+        android:layout_marginTop="112dp"
         android:src="@drawable/group_3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -81,12 +79,26 @@
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="12dp"
         android:text="Find Food You Love"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/imageView7"
         app:layout_constraintStart_toStartOf="@+id/imageView7"
         app:layout_constraintTop_toBottomOf="@+id/imageView7" />
+
+    <TextView
+        android:id="@+id/textView12"
+        android:layout_width="374dp"
+        android:layout_height="77dp"
+        android:layout_marginTop="24dp"
+        android:text="Elevate your dining experience with this\ngastronomic delight that transcends\n ordinary meals into extraordinary feasts!"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@+id/nextButton"
+        app:layout_constraintEnd_toEndOf="@+id/textView4"
+        app:layout_constraintHorizontal_bias="0.503"
+        app:layout_constraintStart_toStartOf="@+id/textView4"
+        app:layout_constraintTop_toBottomOf="@+id/textView4"
+        app:layout_constraintVertical_bias="0.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
