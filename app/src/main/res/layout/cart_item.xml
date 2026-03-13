@@ -3,11 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
+        app:cardCornerRadius="15dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -19,15 +24,20 @@
 
             <ImageView
                 android:id="@+id/cartImage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="62dp"
+                android:layout_height="62dp"
+                android:layout_marginStart="16dp"
+                android:scaleType="centerCrop"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 tools:srcCompat="@tools:sample/avatars" />
 
             <TextView
                 android:id="@+id/cartFoodName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
+                android:layout_marginLeft="16dp"
                 android:text="TextView"
                 app:layout_constraintBottom_toTopOf="@+id/cartItemPrice"
                 app:layout_constraintStart_toEndOf="@+id/cartImage"
@@ -37,7 +47,7 @@
                 android:id="@+id/cartItemPrice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
+                android:layout_marginLeft="16dp"
                 android:text="TextView"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/cartImage"
@@ -56,7 +66,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/quantity"
+                android:id="@+id/cartItemQuantity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
@@ -73,21 +83,23 @@
                 android:background="@drawable/addtocartshape"
                 android:padding="2dp"
                 android:src="@drawable/minus_solid_full"
-                app:layout_constraintBottom_toBottomOf="@+id/quantity"
-                app:layout_constraintEnd_toStartOf="@+id/quantity"
-                app:layout_constraintTop_toTopOf="@+id/quantity"
+                app:layout_constraintBottom_toBottomOf="@+id/cartItemQuantity"
+                app:layout_constraintEnd_toStartOf="@+id/cartItemQuantity"
+                app:layout_constraintTop_toTopOf="@+id/cartItemQuantity"
                 app:layout_constraintVertical_bias="0.482" />
 
             <ImageButton
                 android:id="@+id/deleteButton"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="16dp"
                 android:background="@android:color/transparent"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@+id/plusbutton"
-                app:layout_constraintHorizontal_bias="0.238"
                 app:layout_constraintStart_toStartOf="@+id/minusbutton"
-                app:layout_constraintTop_toBottomOf="@+id/quantity"
+                app:layout_constraintTop_toBottomOf="@+id/cartItemQuantity"
+                app:layout_constraintVertical_bias="1.0"
                 app:srcCompat="@drawable/delete" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
