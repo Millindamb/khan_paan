@@ -8,8 +8,8 @@
     <androidx.cardview.widget.CardView
         android:layout_width="350dp"
         android:layout_height="87dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
         android:elevation="6dp"
         app:cardCornerRadius="22dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -28,12 +28,12 @@
                 android:layout_height="64dp"
                 android:layout_marginStart="16dp"
                 android:scaleType="centerCrop"
-                app:shapeAppearanceOverlay="@style/CircleImage"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.478"
-                tools:srcCompat="@tools:sample/avatars"/>
+                app:shapeAppearanceOverlay="@style/CircleImage"
+                tools:srcCompat="@tools:sample/avatars" />
 
             <TextView
                 android:id="@+id/pricePopular"
@@ -65,12 +65,12 @@
                 android:layout_height="40dp"
                 android:layout_marginEnd="24dp"
                 android:background="@drawable/circle_button"
-                android:scaleType="center"
                 android:padding="6dp"
-                app:srcCompat="@drawable/add_2"
+                android:scaleType="center"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/add_2" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -52,13 +52,15 @@ class HomeFragment : Fragment() {
             }
 
         })
-        val foodName= listOf("Burger","Pizza","Paneer Tikka","Hara kabab")
-        val price= listOf("150Rs","279Rs","350Rs","249Rs")
+        val foodName= listOf("Maxican Burger","Paneer Pizza","Paneer Tikka","Hara bhara kabab","White sauce pasta","Paneer masala")
+        val price= listOf("150Rs","279Rs","350Rs","249Rs","150Rs","249Rs")
         val popularFoodImages= listOf(
             R.drawable.burger_cart,
             R.drawable.pizza_cart,
             R.drawable.paneer_tikka_cart,
-            R.drawable.hara_bhara_kabab_cart
+            R.drawable.hara_bhara_kabab_cart,
+            R.drawable.white_sauce_pasta,
+            R.drawable.paneer_masala_cart
         )
         val adapter= PopularAdapter(foodName,price,popularFoodImages)
         binding.PopularRecyclerView.layoutManager= LinearLayoutManager(requireContext())
