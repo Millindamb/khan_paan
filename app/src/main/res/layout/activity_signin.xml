@@ -31,7 +31,7 @@
         android:layout_width="314dp"
         android:layout_height="48dp"
         android:layout_marginTop="44dp"
-        android:background="@drawable/greenbuttongredient"
+        android:background="@drawable/green_button"
         android:text="Create Account"
         android:textAllCaps="false"
         android:textColor="@color/white"

@@ -25,11 +25,14 @@ class MenuBootemSheetFragment : BottomSheetDialogFragment() {
         binding.buttonBack.setOnClickListener {
             dismiss()
         }
-
-
-        val menuFoodName= listOf("Pizza","Burger","Pasta")
-        val menuItemPrice= listOf("$5","$4","$6")
-        val menuImage= listOf(R.drawable.ic_menu_view,R.drawable.picture_frame,R.drawable.picture_frame)
+        val menuFoodName= listOf("Maxican Burger","Paneer Pizza","Paneer Tikka","White sauce pasta")
+        val menuItemPrice= listOf("150Rs","279Rs","350Rs","150Rs")
+        val menuImage= listOf(
+            com.example.gharkakhana.R.drawable.burger_cart,
+            com.example.gharkakhana.R.drawable.pizza_cart,
+            com.example.gharkakhana.R.drawable.paneer_tikka_cart,
+            com.example.gharkakhana.R.drawable.white_sauce_pasta
+        )
         val adapter= MenuAdapter(ArrayList(menuFoodName), ArrayList(menuItemPrice), ArrayList(menuImage))
 
         binding.menuRecyclerView.layoutManager= LinearLayoutManager(requireContext())

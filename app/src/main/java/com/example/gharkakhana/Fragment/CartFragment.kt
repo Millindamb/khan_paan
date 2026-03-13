@@ -22,9 +22,9 @@ class CartFragment : Fragment() {
     ): View? {
         binding=FragmentCartBinding.inflate(inflater,container,false)
 
-        val cartFoodName= listOf("Pizza","Burger","Pasta")
-        val cartItemPrice= listOf("$5","$4","$6")
-        val cartImage= listOf(R.drawable.food2_background,R.drawable.food4_background,R.drawable.food1_background)
+        val cartFoodName= listOf("Maxican Burger","Paneer Pizza","White sauce pasta")
+        val cartItemPrice= listOf("150Rs","279Rs","150Rs")
+        val cartImage= listOf(R.drawable.burger_cart,R.drawable.pizza_cart,R.drawable.white_sauce_pasta)
         val adapter= CartAdapter(ArrayList(cartFoodName), ArrayList(cartItemPrice), ArrayList(cartImage))
 
         binding.cartRecyclerView.layoutManager= LinearLayoutManager(requireContext())

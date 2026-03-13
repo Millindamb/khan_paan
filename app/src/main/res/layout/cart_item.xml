@@ -20,46 +20,50 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="75dp">
 
-            <ImageView
+            <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/cartImage"
-                android:layout_width="62dp"
-                android:layout_height="62dp"
-                android:layout_marginStart="16dp"
+                android:layout_width="65dp"
+                android:layout_height="59dp"
+                android:layout_marginStart="12dp"
                 android:scaleType="centerCrop"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                app:shapeAppearanceOverlay="@style/CircleImage"
                 tools:srcCompat="@tools:sample/avatars" />
 
             <TextView
                 android:id="@+id/cartFoodName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
-                android:text="TextView"
-                app:layout_constraintBottom_toTopOf="@+id/cartItemPrice"
+                android:layout_marginStart="12dp"
+                android:text="Food"
+                app:layout_constraintBottom_toBottomOf="@+id/cartImage"
                 app:layout_constraintStart_toEndOf="@+id/cartImage"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="@+id/cartImage"
+                app:layout_constraintVertical_bias="0.325" />
 
             <TextView
                 android:id="@+id/cartItemPrice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
-                android:text="TextView"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/cartImage"
+                android:layout_marginTop="4dp"
+                android:text="price"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="@+id/cartFoodName"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/cartFoodName"
                 app:layout_constraintTop_toBottomOf="@+id/cartFoodName" />
 
             <ImageButton
                 android:id="@+id/plusbutton"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="16dp"
-                android:background="@drawable/addtocartshape"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="52dp"
+                android:background="@drawable/green_button"
                 android:padding="2dp"
                 android:src="@drawable/plus_solid_full"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -69,38 +73,34 @@
                 android:id="@+id/cartItemQuantity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
+                android:layout_marginEnd="16dp"
                 android:text="1"
-                app:layout_constraintBottom_toBottomOf="@+id/plusbutton"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/plusbutton"
-                app:layout_constraintTop_toTopOf="@+id/plusbutton" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <ImageButton
                 android:id="@+id/minusbutton"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:layout_marginEnd="8dp"
-                android:background="@drawable/addtocartshape"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/green_button"
                 android:padding="2dp"
                 android:src="@drawable/minus_solid_full"
-                app:layout_constraintBottom_toBottomOf="@+id/cartItemQuantity"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/cartItemQuantity"
-                app:layout_constraintTop_toTopOf="@+id/cartItemQuantity"
-                app:layout_constraintVertical_bias="0.482" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.47" />
 
             <ImageButton
                 android:id="@+id/deleteButton"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:layout_marginTop="8dp"
-                android:layout_marginBottom="16dp"
-                android:background="@android:color/transparent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@+id/plusbutton"
-                app:layout_constraintStart_toStartOf="@+id/minusbutton"
-                app:layout_constraintTop_toBottomOf="@+id/cartItemQuantity"
-                app:layout_constraintVertical_bias="1.0"
-                app:srcCompat="@drawable/delete" />
+                android:layout_marginEnd="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/cross" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
