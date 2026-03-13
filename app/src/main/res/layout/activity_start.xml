@@ -24,15 +24,16 @@
         android:id="@+id/nextButton"
         android:layout_width="111dp"
         android:layout_height="45dp"
-        android:layout_marginBottom="56dp"
+        android:layout_marginBottom="36dp"
         android:background="@drawable/greenbuttongredient"
         android:text="next"
         android:textColor="@color/white"
         android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/textView5"
-        app:layout_constraintEnd_toEndOf="@+id/textView12"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="@+id/textView12"
+        app:layout_constraintEnd_toEndOf="@+id/textView4"
+        app:layout_constraintStart_toStartOf="@+id/textView4"
+        app:layout_constraintTop_toBottomOf="@+id/textView12"
+        app:layout_constraintVertical_bias="0.0"
         tools:ignore="TouchTargetSizeCheck" />
 
     <ImageView
@@ -94,11 +95,9 @@
         android:layout_marginTop="24dp"
         android:text="Elevate your dining experience with this\ngastronomic delight that transcends\n ordinary meals into extraordinary feasts!"
         android:textAlignment="center"
-        app:layout_constraintBottom_toTopOf="@+id/nextButton"
         app:layout_constraintEnd_toEndOf="@+id/textView4"
         app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintStart_toStartOf="@+id/textView4"
-        app:layout_constraintTop_toBottomOf="@+id/textView4"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

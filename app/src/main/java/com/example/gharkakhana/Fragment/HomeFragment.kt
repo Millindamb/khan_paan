@@ -34,9 +34,9 @@ class HomeFragment : Fragment() {
 
         val imageList = ArrayList<SlideModel>()
 
-        imageList.add(SlideModel(R.drawable.banner1_foreground, ScaleTypes.FIT))
-        imageList.add(SlideModel(R.drawable.banner2_foreground, ScaleTypes.FIT))
-        imageList.add(SlideModel(R.drawable.banner3_foreground, ScaleTypes.FIT))
+        imageList.add(SlideModel(R.drawable.fast_food_slider, ScaleTypes.FIT))
+        imageList.add(SlideModel(R.drawable.pizza_sliders, ScaleTypes.FIT))
+        imageList.add(SlideModel(R.drawable.indian_thali, ScaleTypes.FIT))
 
         val imageSlider=binding.imageSlider
         imageSlider.setImageList(imageList, ScaleTypes.FIT)
@@ -52,13 +52,13 @@ class HomeFragment : Fragment() {
             }
 
         })
-        val foodName= listOf("Burger","Pizza","Hotdog","momo")
-        val price= listOf("$5","$8","$6","$5")
+        val foodName= listOf("Burger","Pizza","Paneer Tikka","Hara kabab")
+        val price= listOf("150Rs","279Rs","350Rs","249Rs")
         val popularFoodImages= listOf(
-            R.drawable.food4_background,
-            R.drawable.food3_background,
-            R.drawable.food2_background,
-            R.drawable.food1_background
+            R.drawable.burger_cart,
+            R.drawable.pizza_cart,
+            R.drawable.paneer_tikka_cart,
+            R.drawable.hara_bhara_kabab_cart
         )
         val adapter= PopularAdapter(foodName,price,popularFoodImages)
         binding.PopularRecyclerView.layoutManager= LinearLayoutManager(requireContext())
