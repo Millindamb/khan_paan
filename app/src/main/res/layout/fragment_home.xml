@@ -33,14 +33,14 @@
     </androidx.cardview.widget.CardView>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/PopularRecyclerView"
+        android:id="@+id/popularRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/viewMenu" />
+        app:layout_constraintTop_toBottomOf="@+id/viewAllMenu" />
 
     <TextView
         android:id="@+id/textView14"
@@ -55,7 +55,7 @@
         app:layout_constraintTop_toBottomOf="@+id/cardView" />
 
     <TextView
-        android:id="@+id/viewMenu"
+        android:id="@+id/viewAllMenu"
         android:layout_width="101dp"
         android:layout_height="33dp"
         android:layout_marginTop="16dp"

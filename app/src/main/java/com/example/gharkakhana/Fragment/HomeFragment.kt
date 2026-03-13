@@ -13,6 +13,7 @@ import com.example.gharkakhana.R
 import com.example.gharkakhana.adapter.PopularAdapter
 import com.example.gharkakhana.databinding.FragmentHomeBinding
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.gharkakhana.MenuBootemSheetFragment
 
 class HomeFragment : Fragment() {
 
@@ -26,6 +27,10 @@ class HomeFragment : Fragment() {
     ): View {
 
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
+        binding.viewAllMenu.setOnClickListener {
+            val bottomSheetDialog = MenuBootemSheetFragment()
+            bottomSheetDialog.show(parentFragmentManager, "Test")
+        }
         return binding.root
     }
 
@@ -63,8 +68,8 @@ class HomeFragment : Fragment() {
             R.drawable.paneer_masala_cart
         )
         val adapter= PopularAdapter(foodName,price,popularFoodImages)
-        binding.PopularRecyclerView.layoutManager= LinearLayoutManager(requireContext())
-        binding.PopularRecyclerView.adapter=adapter
+        binding.popularRecyclerView.layoutManager= LinearLayoutManager(requireContext())
+        binding.popularRecyclerView.adapter=adapter
     }
 
     override fun onDestroyView() {

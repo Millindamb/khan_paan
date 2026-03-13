@@ -5,4 +5,6 @@
     <string name="choose_location">Choose Location</string>
     <string name="to_provide_you_with_the_best_dining_experience_nwe_need_your_permission_to_access_your_device_s_location_nby_enabling_location_services_accurate_delivery_estimates_n_and_ensure_a_seamless_food_delivery_experience_quot">To provide you with the best dining experience, \nwe need your permission to access your device\'s location.\nBy enabling location services accurate delivery estimates,\n and ensure a seamless food delivery experience.\"</string>
     <string name="fast_delivery">Fast Delivery</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
