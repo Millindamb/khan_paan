@@ -1,11 +1,15 @@
 package com.example.gharkakhana.adapter
 
+import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.gharkakhana.DetailsActivity
 import com.example.gharkakhana.databinding.PopularItemBinding
 
 class PopularAdapter(
+    private val requireContext: Context,
     private val items: List<String>,
     private val prices: List<String>,
     private val images: List<Int>
@@ -24,6 +28,13 @@ class PopularAdapter(
         val itemName = items[position]
         val itemPrice = prices[position]
         val itemImage = images[position]
+
+        holder.itemView.setOnClickListener {
+            val intent = Intent(requireContext, DetailsActivity::class.java)
+            intent.putExtra("MenuItemName", itemName)
+            intent.putExtra("MenuItemImage", itemImage)
+            requireContext.startActivity(intent)
+        }
 
         holder.bind(itemName, itemPrice, itemImage)
     }

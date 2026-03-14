@@ -14,6 +14,7 @@ import com.example.gharkakhana.R
 import com.example.gharkakhana.adapter.PopularAdapter
 import com.example.gharkakhana.databinding.FragmentHomeBinding
 import com.example.gharkakhana.MenuBootemSheetFragment
+import com.example.gharkakhana.adapter.MenuAdapter
 
 class HomeFragment : Fragment() {
 
@@ -89,7 +90,12 @@ class HomeFragment : Fragment() {
         )
 
         // Adapter
-        val adapter = PopularAdapter(foodName, price, popularFoodImages)
+        val adapter = PopularAdapter(
+            requireContext(),
+            foodName,
+            price,
+            popularFoodImages
+        )
 
         // GRID LAYOUT (2 cards per row)
         binding.popularRecyclerView.layoutManager =

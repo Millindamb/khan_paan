@@ -3,6 +3,8 @@ package com.example.gharkakhana.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import android.content.Intent
+import com.example.gharkakhana.DetailsActivity
 import com.example.gharkakhana.databinding.BuyAgainItemBinding
 
 class BuyAgainAdapter(
@@ -21,11 +23,23 @@ class BuyAgainAdapter(
     }
 
     override fun onBindViewHolder(holder: BuyAgainViewHolder, position: Int) {
-        holder.bind(
-            buyAgainFoodName[position],
-            buyAgainFoodPrice[position],
-            buyAgainFoodImage[position]
-        )
+
+        val name = buyAgainFoodName[position]
+        val price = buyAgainFoodPrice[position]
+        val image = buyAgainFoodImage[position]
+
+        holder.bind(name, price, image)
+
+        holder.itemView.setOnClickListener {
+
+            val context = holder.itemView.context
+            val intent = Intent(context, DetailsActivity::class.java)
+
+            intent.putExtra("MenuItemName", name)
+            intent.putExtra("MenuItemImage", image)
+
+            context.startActivity(intent)
+        }
     }
 
     override fun getItemCount(): Int {

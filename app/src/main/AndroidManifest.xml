@@ -10,9 +10,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GharKaKhana">
         <activity
-            android:name=".PayOutActivity"
+            android:name=".DetailsActivity"
             android:exported="false" />
-        <!-- Splash Screen (First screen) -->
+        <activity
+            android:name=".PayOutActivity"
+            android:exported="false" /> <!-- Splash Screen (First screen) -->
         <activity
             android:name=".Splash_Screen"
             android:exported="true">

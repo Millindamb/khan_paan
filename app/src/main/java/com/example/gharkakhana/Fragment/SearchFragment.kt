@@ -46,7 +46,13 @@ class SearchFragment : Fragment() {
         adapter = MenuAdapter(
             filteredMenuFoodName,
             filteredMenuItemPrice,
-            filteredMenuImage
+            filteredMenuImage,
+            requireContext(),
+            object : MenuAdapter.OnItemClickListener {
+                override fun onItemClick(position: Int) {
+                    // Handle click if needed
+                }
+            }
         )
 
         binding.menuRecyclerView.layoutManager = LinearLayoutManager(requireContext())

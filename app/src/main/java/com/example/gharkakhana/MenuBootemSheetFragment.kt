@@ -33,7 +33,17 @@ class MenuBootemSheetFragment : BottomSheetDialogFragment() {
             com.example.gharkakhana.R.drawable.paneer_tikka_cart,
             com.example.gharkakhana.R.drawable.white_sauce_pasta
         )
-        val adapter= MenuAdapter(ArrayList(menuFoodName), ArrayList(menuItemPrice), ArrayList(menuImage))
+        val adapter = MenuAdapter(
+            ArrayList(menuFoodName),
+            ArrayList(menuItemPrice),
+            ArrayList(menuImage),
+            requireContext(),
+            object : MenuAdapter.OnItemClickListener {
+                override fun onItemClick(position: Int) {
+                    // Handle item click if needed
+                }
+            }
+        )
 
         binding.menuRecyclerView.layoutManager= LinearLayoutManager(requireContext())
         binding.menuRecyclerView.adapter=adapter
