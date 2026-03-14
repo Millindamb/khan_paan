@@ -9,43 +9,35 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.GharKaKhana">
-
+        <activity
+            android:name=".PayOutActivity"
+            android:exported="false" />
         <!-- Splash Screen (First screen) -->
         <activity
             android:name=".Splash_Screen"
             android:exported="true">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
-        </activity>
+                <action android:name="android.intent.action.MAIN" />
 
-        <!-- Start Activity -->
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity> <!-- Start Activity -->
         <activity
             android:name=".StartActivity"
-            android:exported="false"/>
-
-        <!-- Login Screen -->
+            android:exported="false" /> <!-- Login Screen -->
         <activity
             android:name=".LoginActivity"
-            android:exported="false"/>
-
-        <!-- Sign Up Screen -->
+            android:exported="false" /> <!-- Sign Up Screen -->
         <activity
             android:name=".SigninActivity"
-            android:exported="false"/>
-
-        <!-- Choose Location Screen -->
+            android:exported="false" /> <!-- Choose Location Screen -->
         <activity
             android:name=".ChooseLocationActivity"
-            android:exported="false"/>
-
-        <!-- Main App Screen -->
+            android:exported="false" /> <!-- Main App Screen -->
         <activity
             android:name=".MainActivity"
             android:exported="false"
-            android:windowSoftInputMode="adjustPan"/>
-
+            android:windowSoftInputMode="adjustPan" />
     </application>
 
 </manifest>

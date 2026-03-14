@@ -1,14 +1,18 @@
 package com.example.gharkakhana.Fragment
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.gharkakhana.CongratsBottomSheet
+import com.example.gharkakhana.PayOutActivity
 import com.example.gharkakhana.R
 import com.example.gharkakhana.adapter.CartAdapter
 import com.example.gharkakhana.databinding.FragmentCartBinding
+import kotlin.jvm.java
 
 class CartFragment : Fragment() {
     private lateinit var binding: FragmentCartBinding
@@ -29,6 +33,11 @@ class CartFragment : Fragment() {
 
         binding.cartRecyclerView.layoutManager= LinearLayoutManager(requireContext())
         binding.cartRecyclerView.adapter=adapter
+
+        binding.proceedButton.setOnClickListener {
+            val intent = Intent(requireContext(), PayOutActivity::class.java)
+            startActivity(intent)
+        }
 
         return binding.root
     }
