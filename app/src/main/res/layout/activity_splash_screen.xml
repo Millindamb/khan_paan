@@ -12,7 +12,7 @@
         android:layout_width="103dp"
         android:layout_height="47dp"
         android:layout_marginBottom="16dp"
-        android:text="Developed by\n"
+        android:text="Developed by\n Team Snow"
         android:textAlignment="center"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
