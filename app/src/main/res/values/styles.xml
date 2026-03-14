@@ -2,6 +2,6 @@
 <resources>
     <style name="CircleImage">
         <item name="cornerFamily">rounded</item>
-        <item name="cornerSize">20%</item>
+        <item name="cornerSize">15%</item>
     </style>
 </resources>

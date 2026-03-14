@@ -23,26 +23,27 @@
             android:textSize="32sp" />
 
         <ImageView
-            android:id="@+id/imageView18"
-            android:layout_width="300dp"
-            android:layout_height="300dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="32dp"
-            android:src="@drawable/notificationimg3" />
+            android:id="@+id/imageView29"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/check_256" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:background="@drawable/gohomeshape"
             android:id="@+id/goHome"
             android:layout_width="157dp"
             android:layout_height="57dp"
-            android:textColor="@color/white"
-            android:textAllCaps="false"
-            android:layout_marginTop="32dp"
             android:layout_gravity="center"
-            android:text="Home"/>
+            android:layout_marginTop="32dp"
+            android:background="@drawable/green_button"
+            android:text="Home"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+
         <View
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content" />
+
     </LinearLayout>
 
 </FrameLayout>

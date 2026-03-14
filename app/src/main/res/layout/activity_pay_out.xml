@@ -182,12 +182,12 @@
                 android:layout_weight="1"
                 android:background="@android:color/transparent"
                 android:ems="10"
-                android:textSize="20sp"
-                android:textColor="@color/endColor"
-                android:paddingEnd="32dp"
                 android:gravity="end"
                 android:inputType="none"
-                android:text="$55" />
+                android:paddingEnd="32dp"
+                android:text="299Rs"
+                android:textColor="@color/endColor"
+                android:textSize="20sp" />
         </LinearLayout>
     </LinearLayout>
     <androidx.appcompat.widget.AppCompatButton
@@ -196,8 +196,10 @@
         android:layout_height="56dp"
         android:layout_marginRight="16dp"
         android:layout_marginLeft="16dp"
-        android:background="@drawable/edittext"
+        android:background="@drawable/green_button"
         android:text="Place My Order"
+        android:textColor="@color/white"
+        android:textSize="16sp"
         android:textAllCaps="false"
         android:layout_gravity="bottom"
         android:layout_marginBottom="32dp"
