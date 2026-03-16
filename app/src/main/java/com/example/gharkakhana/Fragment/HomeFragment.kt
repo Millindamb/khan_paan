@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
+import com.denzcoskun.imageslider.constants.ScaleTypes
 import com.denzcoskun.imageslider.interfaces.ItemClickListener
 import com.denzcoskun.imageslider.models.SlideModel
 import com.example.gharkakhana.R
@@ -58,7 +59,6 @@ class HomeFragment : Fragment() {
             }
         })
 
-
         // Food Data
         val foodName = listOf(
             "Maxican Burger",
@@ -77,7 +77,7 @@ class HomeFragment : Fragment() {
             "Gulab jamun",
             "Bhindi masala",
             "Manchurian dry",
-            "Masala dhosa",
+            "Paneer palak",
             "Daal makhani"
         )
 
@@ -97,7 +97,7 @@ class HomeFragment : Fragment() {
             "189Rs",
             "229Rs",
             "199Rs",
-            "179s",
+            "179Rs",
             "160Rs",
             "199Rs"
         )
@@ -119,9 +119,8 @@ class HomeFragment : Fragment() {
             R.drawable.gulab_jamun,
             R.drawable.bhindi_masala,
             R.drawable.manchurian,
-            R.drawable.Xhosa,
+            R.drawable.palak_paneer,
             R.drawable.daal_makhani
-
         )
 
         // Adapter
@@ -132,7 +131,7 @@ class HomeFragment : Fragment() {
             popularFoodImages
         )
 
-        // GRID LAYOUT (2 cards per row)
+        // Grid Layout (2 items per row)
         binding.popularRecyclerView.layoutManager =
             GridLayoutManager(requireContext(), 2)
 
