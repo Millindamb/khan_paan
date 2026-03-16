@@ -190,18 +190,18 @@
                 android:textSize="20sp" />
         </LinearLayout>
     </LinearLayout>
+
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/PlaceMyOrder"
         android:layout_width="match_parent"
         android:layout_height="56dp"
-        android:layout_marginRight="16dp"
+        android:layout_gravity="bottom"
         android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="32dp"
         android:background="@drawable/green_button"
         android:text="Place My Order"
-        android:textColor="@color/white"
-        android:textSize="16sp"
         android:textAllCaps="false"
-        android:layout_gravity="bottom"
-        android:layout_marginBottom="32dp"
-        />
+        android:textColor="@color/white"
+        android:textSize="16sp" />
 </FrameLayout>

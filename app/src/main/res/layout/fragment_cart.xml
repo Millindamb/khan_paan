@@ -52,14 +52,14 @@
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/proceedButton"
-        android:layout_width="325dp"
-        android:layout_height="57dp"
+        android:layout_width="370dp"
+        android:layout_height="50dp"
         android:layout_marginBottom="8dp"
         android:background="@drawable/green_button"
         android:text="Proceed"
-        android:textSize="20sp"
-        android:textColor="@color/white"
         android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

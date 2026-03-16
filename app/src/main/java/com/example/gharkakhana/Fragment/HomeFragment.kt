@@ -68,7 +68,19 @@ class HomeFragment : Fragment() {
             "Paneer Tikka",
             "Hara bhara kabab",
             "White sauce pasta",
-            "Paneer masala"
+            "Paneer masala",
+            "Toar tadka daal",
+            "Hakka noodles",
+            "Rasmalai",
+            "Butter naan",
+            "Veg biryani",
+            "Chole khulche",
+            "Hakka noodles",
+            "Gulab jamun",
+            "Bhindi masala",
+            "Manchurian dry",
+            "Masala dhosa",
+            "Daal makhani"
         )
 
         val price = listOf(
@@ -77,7 +89,19 @@ class HomeFragment : Fragment() {
             "350Rs",
             "249Rs",
             "150Rs",
-            "249Rs"
+            "249Rs",
+            "229Rs",
+            "189Rs",
+            "249Rs",
+            "199Rs",
+            "249Rs",
+            "229Rs",
+            "189Rs",
+            "229Rs",
+            "199Rs",
+            "179s",
+            "160Rs",
+            "199Rs"
         )
 
         val popularFoodImages = listOf(
@@ -86,7 +110,20 @@ class HomeFragment : Fragment() {
             R.drawable.paneer_tikka_cart,
             R.drawable.hara_bhara_kabab_cart,
             R.drawable.white_sauce_pasta,
-            R.drawable.paneer_masala_cart
+            R.drawable.paneer_masala_cart,
+            R.drawable.toar_daal,
+            R.drawable.hakka_noodles,
+            R.drawable.rasmalai,
+            R.drawable.butter_naan,
+            R.drawable.veg_biryani,
+            R.drawable.chole_khulche,
+            R.drawable.hakka_noodles,
+            R.drawable.gulab_jamun,
+            R.drawable.bhindi_masala,
+            R.drawable.manchurian,
+            R.drawable.dhosa,
+            R.drawable.daal_makhani
+
         )
 
         // Adapter
