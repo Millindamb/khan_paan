@@ -7,14 +7,12 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
-import com.denzcoskun.imageslider.constants.ScaleTypes
 import com.denzcoskun.imageslider.interfaces.ItemClickListener
 import com.denzcoskun.imageslider.models.SlideModel
 import com.example.gharkakhana.R
 import com.example.gharkakhana.adapter.PopularAdapter
 import com.example.gharkakhana.databinding.FragmentHomeBinding
 import com.example.gharkakhana.MenuBootemSheetFragment
-import com.example.gharkakhana.adapter.MenuAdapter
 
 class HomeFragment : Fragment() {
 
@@ -121,7 +119,7 @@ class HomeFragment : Fragment() {
             R.drawable.gulab_jamun,
             R.drawable.bhindi_masala,
             R.drawable.manchurian,
-            R.drawable.dhosa,
+            R.drawable.Xhosa,
             R.drawable.daal_makhani
 
         )
