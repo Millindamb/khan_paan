@@ -6,17 +6,25 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.denzcoskun.imageslider.constants.ScaleTypes
 import com.denzcoskun.imageslider.interfaces.ItemClickListener
 import com.denzcoskun.imageslider.models.SlideModel
 import com.example.gharkakhana.R
-import com.example.gharkakhana.adapter.PopularAdapter
-import com.example.gharkakhana.databinding.FragmentHomeBinding
 import com.example.gharkakhana.MenuBootemSheetFragment
+import com.example.gharkakhana.adapter.MenuAdapter
+import com.example.gharkakhana.databinding.FragmentHomeBinding
+import com.example.gharkakhana.model.MenuItem                  // ← correct import
+import com.example.gharkakhana.network.SupabaseClient
+import io.github.jan.supabase.postgrest.postgrest
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class HomeFragment : Fragment() {
 
+    private lateinit var menuItems: MutableList<MenuItem>
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
@@ -25,7 +33,6 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
 
         binding.viewAllMenu.setOnClickListener {
@@ -33,15 +40,16 @@ class HomeFragment : Fragment() {
             bottomSheetDialog.show(parentFragmentManager, "Test")
         }
 
+        retrieveAndDisplayPopularItems()
+
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Image Slider
+        // ── Image Slider ───────────────────────────────────────────────────
         val imageList = ArrayList<SlideModel>()
-
         imageList.add(SlideModel(R.drawable.fast_food_slider, ScaleTypes.FIT))
         imageList.add(SlideModel(R.drawable.pizza_sliders, ScaleTypes.FIT))
         imageList.add(SlideModel(R.drawable.indian_thali, ScaleTypes.FIT))
@@ -50,91 +58,65 @@ class HomeFragment : Fragment() {
         imageSlider.setImageList(imageList, ScaleTypes.FIT)
 
         imageSlider.setItemClickListener(object : ItemClickListener {
-
             override fun doubleClick(position: Int) {}
-
             override fun onItemSelected(position: Int) {
-                val itemMessage = "Selected Image $position"
-                Toast.makeText(requireContext(), itemMessage, Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    requireContext(),
+                    "Selected Image $position",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         })
+    }
 
-        // Food Data
-        val foodName = listOf(
-            "Maxican Burger",
-            "Paneer Pizza",
-            "Paneer Tikka",
-            "Hara bhara kabab",
-            "White sauce pasta",
-            "Paneer masala",
-            "Toar tadka daal",
-            "Hakka noodles",
-            "Rasmalai",
-            "Butter naan",
-            "Veg biryani",
-            "Chole khulche",
-            "Hakka noodles",
-            "Gulab jamun",
-            "Bhindi masala",
-            "Manchurian dry",
-            "Paneer palak",
-            "Daal makhani"
+    private fun retrieveAndDisplayPopularItems() {
+        menuItems = mutableListOf()
+
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                // ── Fetch all menu items from Supabase ─────────────────────
+                val result = SupabaseClient.client.postgrest
+                    .from("menu")
+                    .select()
+                    .decodeList<MenuItem>()
+
+                withContext(Dispatchers.Main) {
+                    menuItems.clear()
+                    menuItems.addAll(result)
+                    randomPopularItems()
+                }
+
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(
+                        requireContext(),
+                        "Failed to load items: ${e.message}",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+            }
+        }
+    }
+
+    private fun randomPopularItems() {
+        if (menuItems.isEmpty()) return          // ← guard against empty list
+
+        val numItemsToShow = minOf(6, menuItems.size)   // ← avoid index overflow
+        val subsetMenuItem = menuItems.shuffled().take(numItemsToShow)
+        setPopularItems(subsetMenuItem)
+    }
+
+    private fun setPopularItems(subsetMenuItem: List<MenuItem>) {
+        val adapter = MenuAdapter(
+            menuItems = subsetMenuItem,
+            requireContext = requireContext(),
+            itemClickListener = object : MenuAdapter.OnItemClickListener {
+                override fun onItemClick(position: Int) {
+                    // handle click if needed
+                }
+            }
         )
-
-        val price = listOf(
-            "150Rs",
-            "279Rs",
-            "350Rs",
-            "249Rs",
-            "150Rs",
-            "249Rs",
-            "229Rs",
-            "189Rs",
-            "249Rs",
-            "199Rs",
-            "249Rs",
-            "229Rs",
-            "189Rs",
-            "229Rs",
-            "199Rs",
-            "179Rs",
-            "160Rs",
-            "199Rs"
-        )
-
-        val popularFoodImages = listOf(
-            R.drawable.burger_cart,
-            R.drawable.pizza_cart,
-            R.drawable.paneer_tikka_cart,
-            R.drawable.hara_bhara_kabab_cart,
-            R.drawable.white_sauce_pasta,
-            R.drawable.paneer_masala_cart,
-            R.drawable.toar_daal,
-            R.drawable.hakka_noodles,
-            R.drawable.rasmalai,
-            R.drawable.butter_naan,
-            R.drawable.veg_biryani,
-            R.drawable.chole_khulche,
-            R.drawable.hakka_noodles,
-            R.drawable.gulab_jamun,
-            R.drawable.bhindi_masala,
-            R.drawable.manchurian,
-            R.drawable.palak_paneer,
-            R.drawable.daal_makhani
-        )
-
-        // Adapter
-        val adapter = PopularAdapter(
-            requireContext(),
-            foodName,
-            price,
-            popularFoodImages
-        )
-
-        // Grid Layout (2 items per row)
-        binding.popularRecyclerView.layoutManager =
-            GridLayoutManager(requireContext(), 2)
-
+        binding.popularRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.popularRecyclerView.adapter = adapter
     }
 
