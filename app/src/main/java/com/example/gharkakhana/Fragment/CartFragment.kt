@@ -15,7 +15,6 @@ import com.example.gharkakhana.model.CartItems
 import com.example.gharkakhana.network.SupabaseClient
 import com.google.firebase.auth.FirebaseAuth
 import io.github.jan.supabase.postgrest.postgrest
-import io.github.jan.supabase.postgrest.query.filter.PostgrestFilterBuilder
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -25,15 +24,15 @@ class CartFragment : Fragment() {
 
     private lateinit var binding: FragmentCartBinding
     private val auth = FirebaseAuth.getInstance()
+    private lateinit var cartAdapter: CartAdapter       // ← keep reference for quantities
 
-    // ── Separate lists for adapter ─────────────────────────────────────────
     private lateinit var foodNames: MutableList<String>
     private lateinit var foodPrices: MutableList<String>
     private lateinit var foodDescriptions: MutableList<String>
     private lateinit var foodIngredients: MutableList<String>
-    private lateinit var foodImages: MutableList<String>   // ← String not Int
+    private lateinit var foodImages: MutableList<String>
     private lateinit var quantity: MutableList<Int>
-    private lateinit var cartIds: MutableList<String>      // ← for delete
+    private lateinit var cartIds: MutableList<String>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,11 +43,44 @@ class CartFragment : Fragment() {
         retrieveCartItems()
 
         binding.proceedButton.setOnClickListener {
-            val intent = Intent(requireContext(), PayOutActivity::class.java)
-            startActivity(intent)
+            getOrderItemDetail()        // ← launches PayOutActivity with all data
         }
 
         return binding.root
+    }
+
+    private fun getOrderItemDetail() {
+        // ── Use already-loaded lists, get live quantities from adapter ─────
+        val foodQuantities = cartAdapter.getUpdatedItemQuantities()
+        orderNow(
+            foodNames,
+            foodPrices,
+            foodDescriptions,
+            foodIngredients,
+            foodImages,
+            foodQuantities
+        )
+    }
+
+    private fun orderNow(
+        foodName: MutableList<String>,
+        foodPrice: MutableList<String>,
+        foodDescription: MutableList<String>,
+        foodIngredients: MutableList<String>,
+        foodImage: MutableList<String>,
+        foodQuantities: MutableList<Int>
+    ) {
+        if (isAdded && context != null) {
+            val intent = Intent(requireContext(), PayOutActivity::class.java).apply {
+                putStringArrayListExtra("FoodItemName",        ArrayList(foodName))
+                putStringArrayListExtra("FoodItemPrice",       ArrayList(foodPrice))
+                putStringArrayListExtra("FoodItemDescription", ArrayList(foodDescription))
+                putStringArrayListExtra("FoodItemIngredients", ArrayList(foodIngredients))
+                putStringArrayListExtra("FoodItemImage",       ArrayList(foodImage))
+                putIntegerArrayListExtra("FoodItemQuantity",   ArrayList(foodQuantities))
+            }
+            startActivity(intent)
+        }
     }
 
     private fun retrieveCartItems() {
@@ -72,16 +104,12 @@ class CartFragment : Fragment() {
                 val result = SupabaseClient.client.postgrest
                     .from("cart")
                     .select {
-                        filter {
-                            eq("user_id", userId)
-                        }
+                        filter { eq("user_id", userId) }
                     }
                     .decodeList<CartItems>()
 
                 withContext(Dispatchers.Main) {
                     for (item in result) {
-                        // ── Add ALL fields together so lists stay in sync ──────
-                        // ── If any field is null use empty string/default ──────
                         cartIds.add(item.id ?: "")
                         foodNames.add(item.foodName ?: "")
                         foodPrices.add(item.foodPrice ?: "")
@@ -106,7 +134,7 @@ class CartFragment : Fragment() {
     }
 
     private fun setAdapter() {
-        val adapter = CartAdapter(
+        cartAdapter = CartAdapter(
             context         = requireContext(),
             cartItems       = foodNames,
             cartItemPrice   = foodPrices,
@@ -114,10 +142,10 @@ class CartFragment : Fragment() {
             cartDescriptor  = foodDescriptions,
             cartQuantity    = quantity,
             cartIngredients = foodIngredients,
-            cartItemIds     = cartIds            // ← pass IDs for delete
+            cartItemIds     = cartIds
         )
         binding.cartRecyclerView.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-        binding.cartRecyclerView.adapter = adapter
+        binding.cartRecyclerView.adapter = cartAdapter
     }
 }

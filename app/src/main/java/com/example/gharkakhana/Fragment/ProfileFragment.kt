@@ -1,60 +1,152 @@
 package com.example.gharkakhana.Fragment
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.gharkakhana.R
+import android.widget.Toast
+import androidx.fragment.app.Fragment
+import com.example.gharkakhana.databinding.FragmentProfileBinding
+import com.example.gharkakhana.model.UserModel
+import com.example.gharkakhana.network.SupabaseClient
+import com.google.firebase.auth.FirebaseAuth
+import io.github.jan.supabase.postgrest.postgrest
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [ProfileFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class ProfileFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private lateinit var binding: FragmentProfileBinding
+    private val auth = FirebaseAuth.getInstance()   // ← fixed (was wrong syntax)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_profile, container, false)
+    ): View {
+        binding = FragmentProfileBinding.inflate(inflater, container, false)
+
+        loadUserData()
+
+        binding.SaveInformation.setOnClickListener {
+            saveUserData()
+        }
+
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment ProfileFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            ProfileFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+    // ── Load user data from Supabase and populate fields ───────────────────
+    private fun loadUserData() {
+        val userId = auth.currentUser?.uid ?: return
+
+        // ── Show email from Firebase Auth immediately ──────────────────────
+        binding.email.setText(auth.currentUser?.email ?: "")
+
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val result = SupabaseClient.client.postgrest
+                    .from("users")
+                    .select {
+                        filter { eq("id", userId) }
+                    }
+                    .decodeList<UserModel>()
+
+                withContext(Dispatchers.Main) {
+                    if (result.isNotEmpty()) {
+                        val user = result.first()
+
+                        // ── Populate all fields ────────────────────────────
+                        binding.name.setText(user.name ?: "")
+                        binding.email.setText(user.email ?: auth.currentUser?.email ?: "")
+                        binding.address.setText(user.address ?: "")
+                        binding.phone.setText(user.phone ?: "")
+
+                        // ── Set hints for empty fields ─────────────────────
+                        if (user.address.isNullOrBlank()) {
+                            binding.address.hint = "Enter your address"
+                        }
+                        if (user.phone.isNullOrBlank()) {
+                            binding.phone.hint = "Enter your phone number"
+                        }
+                    }
+                }
+
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(
+                        requireContext(),
+                        "Failed to load profile: ${e.message}",
+                        Toast.LENGTH_LONG
+                    ).show()
                 }
             }
+        }
+    }
+
+    // ── Save / update user data in Supabase ────────────────────────────────
+    private fun saveUserData() {
+        val userId = auth.currentUser?.uid ?: return
+
+        val name    = binding.name.text.toString().trim()
+        val email   = binding.email.text.toString().trim()
+        val address = binding.address.text.toString().trim()
+        val phone   = binding.phone.text.toString().trim()
+
+        // ── Validate fields ────────────────────────────────────────────────
+        if (name.isBlank()) {
+            binding.name.error = "Name is required"
+            return
+        }
+        if (address.isBlank()) {
+            binding.address.error = "Address is required"
+            return
+        }
+        if (phone.isBlank()) {
+            binding.phone.error = "Phone is required"
+            return
+        }
+
+        // ── Show loading state on button ───────────────────────────────────
+        binding.SaveInformation.isEnabled = false
+        binding.SaveInformation.text = "Saving..."
+
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                // ── Upsert: updates if exists, inserts if new ──────────────
+                SupabaseClient.client.postgrest
+                    .from("users")
+                    .upsert(
+                        UserModel(
+                            id      = userId,
+                            name    = name,
+                            email   = email,
+                            address = address,
+                            phone   = phone
+                        )
+                    )
+
+                withContext(Dispatchers.Main) {
+                    binding.SaveInformation.isEnabled = true
+                    binding.SaveInformation.text = "Save Information"
+                    Toast.makeText(
+                        requireContext(),
+                        "Profile saved successfully!",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    binding.SaveInformation.isEnabled = true
+                    binding.SaveInformation.text = "Save Information"
+                    Toast.makeText(
+                        requireContext(),
+                        "Failed to save: ${e.message}",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+            }
+        }
     }
 }

@@ -13,8 +13,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        >
+        android:orientation="vertical">
 
         <ImageButton
             android:id="@+id/goBackFromOrder"
@@ -31,8 +30,8 @@
             android:id="@+id/textView18"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Edit"
             android:layout_gravity="center"
+            android:text="Edit"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -40,9 +39,9 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_marginTop="16dp"
             android:layout_height="56dp"
             android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:background="@drawable/profileedittextshape"
             android:gravity="center_vertical"
@@ -59,19 +58,20 @@
                 android:text="Name" />
 
             <EditText
+                android:id="@+id/name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@android:color/transparent"
                 android:ems="10"
-                android:inputType="text"
-                android:text="Name" />
+                android:inputType="text" />
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_marginTop="16dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:background="@drawable/profileedittextshape"
             android:gravity="center_vertical"
@@ -88,21 +88,22 @@
                 android:text="Address" />
 
             <EditText
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
+                android:id="@+id/address"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
                 android:layout_weight="1"
                 android:background="@android:color/transparent"
                 android:ems="10"
-                android:inputType="textMultiLine"
-                android:text="address of the user is supposed to be here for the food delivery" />
+                android:inputType="textMultiLine" />
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_marginTop="16dp"
             android:layout_height="56dp"
             android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:background="@drawable/profileedittextshape"
             android:gravity="center_vertical"
@@ -119,19 +120,20 @@
                 android:text="Phone" />
 
             <EditText
+                android:id="@+id/phone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@android:color/transparent"
                 android:ems="10"
-                android:inputType="phone"
-                android:text="12345678" />
+                android:inputType="phone" />
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_marginTop="16dp"
             android:layout_height="56dp"
             android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:background="@drawable/profileedittextshape"
             android:gravity="center_vertical"
@@ -155,13 +157,14 @@
                 app:srcCompat="@drawable/cashondelivery" />
 
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="8dp"
             android:layout_height="56dp"
             android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
+            android:layout_marginBottom="8dp"
             android:background="@drawable/profileedittextshape"
             android:gravity="center_vertical"
             android:orientation="horizontal"
@@ -177,6 +180,7 @@
                 android:text="Total Amount" />
 
             <EditText
+                android:id="@+id/totalAmount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -185,7 +189,6 @@
                 android:gravity="end"
                 android:inputType="none"
                 android:paddingEnd="32dp"
-                android:text="299Rs"
                 android:textColor="@color/endColor"
                 android:textSize="20sp" />
         </LinearLayout>

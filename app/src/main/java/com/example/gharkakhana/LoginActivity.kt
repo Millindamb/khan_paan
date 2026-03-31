@@ -4,24 +4,29 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.example.gharkakhana.databinding.ActivityLoginBinding
-import com.google.android.gms.auth.api.signin.*
+import com.example.gharkakhana.model.UserModel
+import com.example.gharkakhana.network.SupabaseClient
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
-import com.google.firebase.database.FirebaseDatabase
-import androidx.activity.result.contract.ActivityResultContracts
-import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
-import com.google.firebase.database.DatabaseReference
+import io.github.jan.supabase.postgrest.postgrest
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class LoginActivity : AppCompatActivity() {
 
-    private lateinit var email: String
-    private lateinit var password: String
     private lateinit var auth: FirebaseAuth
-    private lateinit var database: DatabaseReference
     private lateinit var googleSignInClient: GoogleSignInClient
 
     private val binding: ActivityLoginBinding by lazy {
@@ -32,109 +37,129 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        // Google Sign-In Config
-        val googleSignInOptions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+        auth = Firebase.auth
+
+        val googleSignInOptions = GoogleSignInOptions
+            .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.default_web_client_id))
             .requestEmail()
             .build()
-
-        auth = Firebase.auth
-        database = FirebaseDatabase.getInstance().reference
         googleSignInClient = GoogleSignIn.getClient(this, googleSignInOptions)
 
-        // Email Login
+        // ── Email login ────────────────────────────────────────────────────
         binding.loginbutton.setOnClickListener {
-            email = binding.emailAddressLgn.text.toString().trim()
-            password = binding.passwordLgn.text.toString().trim()
+            val email    = binding.emailAddressLgn.text.toString().trim()
+            val password = binding.passwordLgn.text.toString().trim()
 
             if (email.isBlank() || password.isBlank()) {
                 Toast.makeText(this, "Please fill all the fields", Toast.LENGTH_SHORT).show()
             } else {
-                login(email, password)
+                loginWithEmail(email, password)
             }
         }
 
-        // Google Login (ADD this button in XML if not present)
+        // ── Google login ───────────────────────────────────────────────────
         binding.googleButton.setOnClickListener {
-            val signInIntent = googleSignInClient.signInIntent
-            launcher.launch(signInIntent)
+            launcher.launch(googleSignInClient.signInIntent)
         }
 
-        // Navigate to Signup
         binding.donthavebutton.setOnClickListener {
-            val intent = Intent(this, SigninActivity::class.java)
-            startActivity(intent)
+            startActivity(Intent(this, SigninActivity::class.java))
         }
     }
 
-    // Email/Password Login Function
-    private fun login(email: String, password: String) {
+    private fun loginWithEmail(email: String, password: String) {
         auth.signInWithEmailAndPassword(email, password)
-            .addOnCompleteListener(this) { task ->
+            .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    val user = auth.currentUser
                     Toast.makeText(this, "Login Successful", Toast.LENGTH_SHORT).show()
-                    updateUi(user)
+                    // ── Email login: user already in Supabase from signup ──
+                    // No need to upsert again, just navigate
+                    goToMain()
                 } else {
                     Toast.makeText(
                         this,
-                        "Login failed: ${task.exception?.message}",
+                        "Login Failed: ${task.exception?.message}",
                         Toast.LENGTH_SHORT
                     ).show()
                 }
             }
     }
 
-    // Update UI after login
-    private fun updateUi(user: FirebaseUser?) {
-        if (user != null) {
-            startActivity(Intent(this, MainActivity::class.java))
-            finish()
+    private fun ensureUserInSupabase(userId: String, name: String, email: String) {
+        // ── Only for Google login: upsert so user row exists in Supabase ──
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                SupabaseClient.client.postgrest
+                    .from("users")
+                    .upsert(
+                        UserModel(
+                            id      = userId,
+                            name    = name,
+                            email   = email,
+                            address = "",
+                            phone   = ""
+                        )
+                    )
+
+                withContext(Dispatchers.Main) {
+                    goToMain()
+                }
+
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    // ── Still navigate even if Supabase upsert fails ───────
+                    goToMain()
+                    Toast.makeText(
+                        this@LoginActivity,
+                        "Profile sync failed: ${e.message}",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
         }
     }
 
-    // Auto-login if already logged in
+    private fun goToMain() {
+        startActivity(Intent(this, MainActivity::class.java))
+        finish()
+    }
+
     override fun onStart() {
         super.onStart()
-        val currentUser = auth.currentUser
-        if (currentUser != null) {
-            startActivity(Intent(this, MainActivity::class.java))
-            finish()
+        if (auth.currentUser != null) {
+            goToMain()
         }
     }
 
-    // Google Sign-In Launcher
+    // ── Google Sign-In launcher ────────────────────────────────────────────
     private val launcher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
-
                 val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
-
                 if (task.isSuccessful) {
                     val account: GoogleSignInAccount = task.result
-
                     val credential = GoogleAuthProvider.getCredential(account.idToken, null)
 
                     auth.signInWithCredential(credential)
                         .addOnCompleteListener { authTask ->
                             if (authTask.isSuccessful) {
-                                Toast.makeText(
-                                    this,
-                                    "Successful Login with Google",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-
-                                updateUi(auth.currentUser)
-                                finish()
+                                val user   = auth.currentUser
+                                val userId = user?.uid ?: return@addOnCompleteListener
+                                // ── Ensure Google user exists in Supabase ──
+                                ensureUserInSupabase(
+                                    userId = userId,
+                                    name   = user.displayName ?: "",
+                                    email  = user.email ?: ""
+                                )
                             } else {
                                 Toast.makeText(
                                     this,
-                                    authTask.exception?.message,
+                                    "Google Login Failed: ${authTask.exception?.message}",
                                     Toast.LENGTH_SHORT
                                 ).show()
                             }
                         }
-
                 } else {
                     Toast.makeText(this, task.exception?.message, Toast.LENGTH_SHORT).show()
                 }
