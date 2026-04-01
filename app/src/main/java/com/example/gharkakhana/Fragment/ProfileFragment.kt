@@ -29,8 +29,20 @@ class ProfileFragment : Fragment() {
 
         loadUserData()
 
+        // 🔹 Disable fields initially
+        setFieldsEnabled(false)
+
+        // 🔹 Edit button toggle
+        binding.editButton.setOnClickListener {
+            val isEnabled = binding.name.isEnabled
+            setFieldsEnabled(!isEnabled)
+
+            binding.editButton.text = if (isEnabled) "Edit" else "Cancel"
+        }
+
         binding.SaveInformation.setOnClickListener {
             saveUserData()
+            setFieldsEnabled(false)
         }
 
         return binding.root
@@ -82,6 +94,13 @@ class ProfileFragment : Fragment() {
                 }
             }
         }
+    }
+
+    private fun setFieldsEnabled(enabled: Boolean) {
+        binding.name.isEnabled = enabled
+        binding.email.isEnabled = enabled
+        binding.address.isEnabled = enabled
+        binding.phone.isEnabled = enabled
     }
 
     // ── Save / update user data in Supabase ────────────────────────────────
