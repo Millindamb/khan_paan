@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GharKaKhana">
         <activity
+            android:name=".recentOrderItems"
+            android:exported="false" />
+        <activity
             android:name=".DetailsActivity"
             android:exported="false" />
         <activity
