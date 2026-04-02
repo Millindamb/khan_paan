@@ -102,6 +102,19 @@ class HistoryFragment : Fragment() {
         binding.againFoodName.text  = firstName
         binding.againFoodPrice.text = firstPrice
         Glide.with(requireContext()).load(firstImage).into(binding.againFoodImage)
+
+        // ── Set orderStatus dot color based on order state ─────────────────
+        val statusColor = when {
+            recentOrder.paymentReceived == true ->
+                android.graphics.Color.parseColor("#4CAF50")  // green  = delivered & paid
+
+            recentOrder.orderAccepted == true ->
+                android.graphics.Color.parseColor("#2196F3")  // blue   = confirmed, out for delivery
+
+            else ->
+                android.graphics.Color.parseColor("#FF9800")  // orange = pending, not yet accepted
+        }
+        binding.orderStatus.setCardBackgroundColor(statusColor)
     }
 
     private fun setPreviousBuyItemRecyclerView() {
