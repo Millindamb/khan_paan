@@ -1,81 +1,88 @@
 package com.example.gharkakhana.Fragment
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
+import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.gharkakhana.adapter.MenuAdapter
 import com.example.gharkakhana.databinding.FragmentSearchBinding
+import com.example.gharkakhana.model.MenuItem
+import com.example.gharkakhana.network.SupabaseClient
+import io.github.jan.supabase.postgrest.postgrest
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class SearchFragment : Fragment() {
 
     private lateinit var binding: FragmentSearchBinding
     private lateinit var adapter: MenuAdapter
-
-    private val originalMenuFoodName =
-        listOf("Maxican Burger", "Paneer Pizza", "Paneer Tikka", "White sauce pasta")
-
-    private val originalMenuItemPrice =
-        listOf("150Rs", "279Rs", "350Rs", "150Rs")
-
-    private val originalMenuImage = listOf(
-        com.example.gharkakhana.R.drawable.burger_cart,
-        com.example.gharkakhana.R.drawable.pizza_cart,
-        com.example.gharkakhana.R.drawable.paneer_tikka_cart,
-        com.example.gharkakhana.R.drawable.white_sauce_pasta
-    )
-
-    private val filteredMenuFoodName = mutableListOf<String>()
-    private val filteredMenuItemPrice = mutableListOf<String>()
-    private val filteredMenuImage = mutableListOf<Int>()
+    private val originalMenuItems = mutableListOf<MenuItem>()  // ← fixed typo mutabelListOf
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
         binding = FragmentSearchBinding.inflate(inflater, container, false)
 
-        // Show all menu initially
-        showAllMenu()
-
-//        adapter = MenuAdapter(
-//            filteredMenuFoodName,
-//            filteredMenuItemPrice,
-//            filteredMenuImage,
-//            requireContext(),
-//            object : MenuAdapter.OnItemClickListener {
-//                override fun onItemClick(position: Int) {
-//                    // Handle click if needed
-//                }
-//            }
-//        )
-
-        binding.menuRecyclerView.layoutManager = LinearLayoutManager(requireContext())
-        binding.menuRecyclerView.adapter = adapter
-
+        retrieveMenuItem()
         setupSearchView()
 
         return binding.root
     }
 
+    private fun retrieveMenuItem() {
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                // ── Fetch all menu items from Supabase ─────────────────────
+                val result = SupabaseClient.client.postgrest
+                    .from("menu")
+                    .select()
+                    .decodeList<MenuItem>()
+
+                withContext(Dispatchers.Main) {
+                    originalMenuItems.clear()
+                    originalMenuItems.addAll(result)
+                    showAllMenu()
+                }
+
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(
+                        requireContext(),
+                        "Failed to load menu: ${e.message}",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+            }
+        }
+    }
+
     private fun showAllMenu() {
+        setAdapter(ArrayList(originalMenuItems))
+    }
 
-        filteredMenuFoodName.clear()
-        filteredMenuItemPrice.clear()
-        filteredMenuImage.clear()
-
-        filteredMenuFoodName.addAll(originalMenuFoodName)
-        filteredMenuItemPrice.addAll(originalMenuItemPrice)
-        filteredMenuImage.addAll(originalMenuImage)
+    private fun setAdapter(filteredMenuItem: ArrayList<MenuItem>) {
+        adapter = MenuAdapter(
+            menuItems = filteredMenuItem,
+            requireContext = requireContext(),
+            itemClickListener = object : MenuAdapter.OnItemClickListener {
+                override fun onItemClick(position: Int) {
+                    // handle click if needed
+                }
+            }
+        )
+        binding.menuRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+        binding.menuRecyclerView.adapter = adapter
     }
 
     private fun setupSearchView() {
-
         binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
 
             override fun onQueryTextSubmit(query: String?): Boolean {
@@ -91,19 +98,16 @@ class SearchFragment : Fragment() {
     }
 
     private fun filterMenuItems(query: String) {
-
-        filteredMenuFoodName.clear()
-        filteredMenuItemPrice.clear()
-        filteredMenuImage.clear()
-
-        originalMenuFoodName.forEachIndexed { index, foodName ->
-            if (foodName.contains(query, ignoreCase = true)) {
-                filteredMenuFoodName.add(foodName)
-                filteredMenuItemPrice.add(originalMenuItemPrice[index])
-                filteredMenuImage.add(originalMenuImage[index])
-            }
+        // ── If query is empty show all items ──────────────────────────────
+        if (query.isBlank()) {
+            showAllMenu()
+            return
         }
 
-        adapter.notifyDataSetChanged()
+        val filteredMenuItems = originalMenuItems.filter {
+            it.foodName?.contains(query, ignoreCase = true) == true
+        }
+
+        setAdapter(ArrayList(filteredMenuItems))  // ← safe cast, no force cast needed
     }
 }
