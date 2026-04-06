@@ -24,7 +24,7 @@ class CartFragment : Fragment() {
 
     private lateinit var binding: FragmentCartBinding
     private val auth = FirebaseAuth.getInstance()
-    private lateinit var cartAdapter: CartAdapter       // ← keep reference for quantities
+    private lateinit var cartAdapter: CartAdapter
 
     private lateinit var foodNames: MutableList<String>
     private lateinit var foodPrices: MutableList<String>
@@ -43,14 +43,13 @@ class CartFragment : Fragment() {
         retrieveCartItems()
 
         binding.proceedButton.setOnClickListener {
-            getOrderItemDetail()        // ← launches PayOutActivity with all data
+            getOrderItemDetail()
         }
 
         return binding.root
     }
 
     private fun getOrderItemDetail() {
-        // ── Use already-loaded lists, get live quantities from adapter ─────
         val foodQuantities = cartAdapter.getUpdatedItemQuantities()
         orderNow(
             foodNames,
@@ -72,12 +71,12 @@ class CartFragment : Fragment() {
     ) {
         if (isAdded && context != null) {
             val intent = Intent(requireContext(), PayOutActivity::class.java).apply {
-                putStringArrayListExtra("FoodItemName",        ArrayList(foodName))
-                putStringArrayListExtra("FoodItemPrice",       ArrayList(foodPrice))
+                putStringArrayListExtra("FoodItemName", ArrayList(foodName))
+                putStringArrayListExtra("FoodItemPrice", ArrayList(foodPrice))
                 putStringArrayListExtra("FoodItemDescription", ArrayList(foodDescription))
                 putStringArrayListExtra("FoodItemIngredients", ArrayList(foodIngredients))
-                putStringArrayListExtra("FoodItemImage",       ArrayList(foodImage))
-                putIntegerArrayListExtra("FoodItemQuantity",   ArrayList(foodQuantities))
+                putStringArrayListExtra("FoodItemImage", ArrayList(foodImage))
+                putIntegerArrayListExtra("FoodItemQuantity", ArrayList(foodQuantities))
             }
             startActivity(intent)
         }
@@ -104,7 +103,10 @@ class CartFragment : Fragment() {
                 val result = SupabaseClient.client.postgrest
                     .from("cart")
                     .select {
-                        filter { eq("user_id", userId) }
+                        // ✅ FIXED LINE (TYPE ISSUE RESOLVED)
+                        filter {
+                            this.eq("user_id", userId)
+                        }
                     }
                     .decodeList<CartItems>()
 
