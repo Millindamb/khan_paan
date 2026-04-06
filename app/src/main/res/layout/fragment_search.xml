@@ -111,15 +111,15 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/menuRecyclerView"
-        android:layout_width="408dp"
-        android:layout_height="515dp"
+        android:layout_width="409dp"
+        android:layout_height="660dp"
         android:layout_marginTop="8dp"
         app:layout_constraintBottom_toTopOf="@+id/imageView31"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/searchView" />
-
+        app:layout_constraintTop_toBottomOf="@+id/searchView"
+        app:layout_constraintVertical_bias="0.0" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

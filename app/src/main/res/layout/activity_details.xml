@@ -1,128 +1,130 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="16dp"
+    android:background="@color/white"
     tools:context=".DetailsActivity">
 
+    <!-- Back Button -->
     <ImageButton
         android:id="@+id/detailBackButton"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="40dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:background="@android:color/transparent"
+        android:padding="8dp"
+        app:srcCompat="@drawable/arrow_left_solid_full"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/arrow_left_solid_full" />
+        app:layout_constraintTop_toTopOf="parent" />
 
+    <!-- Food Name -->
     <TextView
         android:id="@+id/detailFoodName"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:text="Food Name"
+        android:textSize="22sp"
+        android:textStyle="bold"
         android:textColor="@color/black"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.11"
+        android:layout_marginTop="12dp"
+        app:layout_constraintTop_toBottomOf="@id/detailBackButton"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/detailBackButton" />
+        app:layout_constraintEnd_toEndOf="parent"/>
 
+    <!-- Price -->
+
+    <!-- Image Card -->
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView4"
-        android:layout_width="370dp"
-        android:layout_height="224dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="32dp"
-        app:cardCornerRadius="15dp"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="0dp"
+        android:layout_height="220dp"
+        android:layout_marginTop="16dp"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="6dp"
+        app:layout_constraintTop_toBottomOf="@id/detailFoodName"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/detailFoodName">
+        app:layout_constraintEnd_toEndOf="parent">
 
         <ImageView
             android:id="@+id/detailFoodImage"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
-            app:srcCompat="@drawable/fast_food_slider" />
+            app:srcCompat="@drawable/fast_food_slider"/>
     </androidx.cardview.widget.CardView>
 
+    <!-- Description Title -->
     <TextView
         android:id="@+id/textView15"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="24dp"
-        android:text="Short Description"
+        android:text="Description"
+        android:textSize="18sp"
+        android:textStyle="bold"
         android:textColor="@color/black"
-        android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardView4" />
+        android:layout_marginTop="20dp"
+        app:layout_constraintTop_toBottomOf="@id/cardView4"
+        app:layout_constraintStart_toStartOf="parent"/>
 
+    <!-- Description -->
     <TextView
         android:id="@+id/descriptionTextView"
-        android:layout_width="362dp"
-        android:layout_height="75dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="8dp"
-        android:text="&quot;Spicy Paneer/Bean Patty | Jalapenos | Chipotle Mayo | Nacho Crunch. A bold, fiery vegetarian burger with authentic Mexican flavors.&quot; "
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.484"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Spicy Paneer/Bean Patty | Jalapenos | Chipotle Mayo | Nacho Crunch."
+        android:textSize="14sp"
+        android:textColor="@color/black"
+        android:alpha="0.7"
+        android:lineSpacingExtra="4dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@id/textView15"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView15" />
+        app:layout_constraintEnd_toEndOf="parent"/>
 
+    <!-- Ingredients Title -->
     <TextView
         android:id="@+id/textView21"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="Ingrediants"
+        android:text="Ingredients"
+        android:textSize="18sp"
+        android:textStyle="bold"
         android:textColor="@color/black"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="@+id/descriptionTextView"
-        app:layout_constraintHorizontal_bias="0.041"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/descriptionTextView" />
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@id/descriptionTextView"
+        app:layout_constraintStart_toStartOf="parent"/>
 
+    <!-- Ingredients -->
     <TextView
         android:id="@+id/ingrediantsTextView"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:text="Paneer \nVegies\nCheese"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.101"
+        android:text="Paneer • Veggies • Cheese"
+        android:textSize="14sp"
+        android:textColor="@color/black"
+        android:alpha="0.7"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@id/textView21"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView21" />
+        app:layout_constraintEnd_toEndOf="parent"/>
 
+    <!-- Add to Cart Button -->
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/additemButton"
-        android:layout_width="372dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
-        android:background="@drawable/green_button"
+        android:layout_width="0dp"
+        android:layout_height="55dp"
         android:text="Add To Cart"
+        android:textAllCaps="false"
+        android:textSize="16sp"
         android:textColor="@color/white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.521"
+        android:background="@drawable/green_button"
+        android:layout_marginTop="24dp"
+        app:layout_constraintTop_toBottomOf="@id/ingrediantsTextView"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ingrediantsTextView" />
+        app:layout_constraintEnd_toEndOf="parent"/>
 
-    <TextView
-        android:id="@+id/detailFoodPrice"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="32dp"
-        android:layout_marginBottom="8dp"
-        android:text="TextView"
-        app:layout_constraintBottom_toTopOf="@+id/cardView4"
-        app:layout_constraintEnd_toEndOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
