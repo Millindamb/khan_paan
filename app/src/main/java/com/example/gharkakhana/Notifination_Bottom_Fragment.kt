@@ -11,6 +11,7 @@ import com.example.gharkakhana.databinding.FragmentNotifinationBottomBinding
 import com.example.gharkakhana.model.OrderDetails
 import com.example.gharkakhana.network.SupabaseClient
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.google.firebase.auth.FirebaseAuth
 import io.github.jan.supabase.postgrest.postgrest
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -20,40 +21,38 @@ import kotlinx.coroutines.withContext
 class Notifination_Bottom_Fragment : BottomSheetDialogFragment() {
 
     private lateinit var binding: FragmentNotifinationBottomBinding
+    private val auth = FirebaseAuth.getInstance()
+    private val listOfOrderItems: MutableList<OrderDetails> = mutableListOf()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentNotifinationBottomBinding.inflate(inflater, container, false)
-        fetchLastOrderAndShowNotification()
+        retrieveLastOrderAndShowNotification()
         return binding.root
     }
 
-    private fun fetchLastOrderAndShowNotification() {
+    private fun retrieveLastOrderAndShowNotification() {
+        val userId = auth.currentUser?.uid ?: return
+
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                // ── Fetch ALL orders then take the last one in Kotlin ──────
-                // This avoids any query-builder syntax issues entirely
-                val allOrders = SupabaseClient.client.postgrest
-                    .from("order_details")
-                    .select()
+                val result = SupabaseClient.client.postgrest
+                    .from("order_history")
+                    .select {
+                        filter { eq("user_id", userId) }
+                    }
                     .decodeList<OrderDetails>()
 
                 withContext(Dispatchers.Main) {
-                    if (allOrders.isEmpty()) {
-                        showSingleNotification(
-                            "No orders placed yet",
-                            R.drawable.notificationimg1
-                        )
-                        return@withContext
-                    }
+                    listOfOrderItems.clear()
+                    listOfOrderItems.addAll(result)
+                    listOfOrderItems.reverse() // most recent first
 
-                    // Sort by created_at descending and pick the first
-                    val recentOrder = allOrders
-                        .sortedByDescending { it.createdAt }
-                        .first()
+                    val recentOrder = listOfOrderItems.firstOrNull() ?: return@withContext
 
+                    // ── Same logic as HistoryFragment's status color block ──
                     val (message, image) = when {
                         recentOrder.paymentReceived == true -> Pair(
                             "Your order has been delivered successfully",
@@ -69,29 +68,25 @@ class Notifination_Bottom_Fragment : BottomSheetDialogFragment() {
                         )
                     }
 
-                    showSingleNotification(message, image)
+                    val adapter = NotificationAdapter(
+                        arrayListOf(message),
+                        arrayListOf(image)
+                    )
+                    binding.notificationRecyclerView.layoutManager =
+                        LinearLayoutManager(requireContext())
+                    binding.notificationRecyclerView.adapter = adapter
                 }
 
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
                     Toast.makeText(
                         requireContext(),
-                        "Error: ${e.message}",
+                        "Failed to load notifications: ${e.message}",
                         Toast.LENGTH_LONG
                     ).show()
                 }
             }
         }
-    }
-
-    private fun showSingleNotification(message: String, image: Int) {
-        val adapter = NotificationAdapter(
-            arrayListOf(message),
-            arrayListOf(image)
-        )
-        binding.notificationRecyclerView.layoutManager =
-            LinearLayoutManager(requireContext())
-        binding.notificationRecyclerView.adapter = adapter
     }
 
     companion object {}
