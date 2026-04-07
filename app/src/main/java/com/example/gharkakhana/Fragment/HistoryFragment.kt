@@ -1,30 +1,26 @@
-package com.example.gharkakhana.Fragment
+package com.example.gharkakhana
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.bumptech.glide.Glide
-import com.example.gharkakhana.adapter.BuyAgainAdapter
-import com.example.gharkakhana.databinding.FragmentHistoryBinding
+import com.example.gharkakhana.adapter.NotificationAdapter
+import com.example.gharkakhana.databinding.FragmentNotifinationBottomBinding
 import com.example.gharkakhana.model.OrderDetails
 import com.example.gharkakhana.network.SupabaseClient
-import com.example.gharkakhana.recentOrderItems
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.firebase.auth.FirebaseAuth
 import io.github.jan.supabase.postgrest.postgrest
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import org.json.JSONArray
 
-class HistoryFragment : Fragment() {
+class Notification_Bottom_Fragment : BottomSheetDialogFragment() {
 
-    private lateinit var binding: FragmentHistoryBinding
+    private lateinit var binding: FragmentNotifinationBottomBinding
     private val auth = FirebaseAuth.getInstance()
     private val listOfOrderItems: MutableList<OrderDetails> = mutableListOf()
 
@@ -32,31 +28,12 @@ class HistoryFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentHistoryBinding.inflate(inflater, container, false)
-
-        retrieveBuyHistory()
-
-        binding.recentBuyItem.setOnClickListener {
-            seeItemsRecentBuy()
-        }
-
+        binding = FragmentNotifinationBottomBinding.inflate(inflater, container, false)
+        retrieveLastOrderAndShowNotification()
         return binding.root
     }
 
-    private fun seeItemsRecentBuy() {
-        listOfOrderItems.firstOrNull()?.let { recentBuy ->
-            // ── Serialize to JSON string instead of Parcelable ─────────────
-            val json = kotlinx.serialization.json.Json.encodeToString(
-                OrderDetails.serializer(), recentBuy
-            )
-            val intent = Intent(requireContext(), recentOrderItems::class.java)
-            intent.putExtra("RecentBuyOrderItem", json)   // ← pass as String
-            startActivity(intent)
-        }
-    }
-
-    private fun retrieveBuyHistory() {
-        binding.recentBuyItem.visibility = View.INVISIBLE
+    private fun retrieveLastOrderAndShowNotification() {
         val userId = auth.currentUser?.uid ?: return
 
         CoroutineScope(Dispatchers.IO).launch {
@@ -71,19 +48,40 @@ class HistoryFragment : Fragment() {
                 withContext(Dispatchers.Main) {
                     listOfOrderItems.clear()
                     listOfOrderItems.addAll(result)
-                    listOfOrderItems.reverse()  // most recent first
+                    listOfOrderItems.reverse() // most recent first
 
-                    if (listOfOrderItems.isNotEmpty()) {
-                        setDataInRecentBuyItem()
-                        setPreviousBuyItemRecyclerView()
+                    val recentOrder = listOfOrderItems.firstOrNull() ?: return@withContext
+
+                    // ── Same logic as HistoryFragment's status color block ──
+                    val (message, image) = when {
+                        recentOrder.paymentReceived == true -> Pair(
+                            "Your order has been delivered successfully",
+                            R.drawable.notificationimg3
+                        )
+                        recentOrder.orderAccepted == true -> Pair(
+                            "Order has been taken by the driver",
+                            R.drawable.notificationimg2
+                        )
+                        else -> Pair(
+                            "Your order is pending confirmation",
+                            R.drawable.notificationimg1
+                        )
                     }
+
+                    val adapter = NotificationAdapter(
+                        arrayListOf(message),
+                        arrayListOf(image)
+                    )
+                    binding.notificationRecyclerView.layoutManager =
+                        LinearLayoutManager(requireContext())
+                    binding.notificationRecyclerView.adapter = adapter
                 }
 
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
                     Toast.makeText(
                         requireContext(),
-                        "Failed to load history: ${e.message}",
+                        "Failed to load notifications: ${e.message}",
                         Toast.LENGTH_LONG
                     ).show()
                 }
@@ -91,61 +89,5 @@ class HistoryFragment : Fragment() {
         }
     }
 
-    private fun setDataInRecentBuyItem() {
-        binding.recentBuyItem.visibility = View.VISIBLE
-        val recentOrder = listOfOrderItems.firstOrNull() ?: return
-
-        val firstName  = parseJsonArray(recentOrder.foodNames).firstOrNull() ?: ""
-        val firstPrice = parseJsonArray(recentOrder.foodPrices).firstOrNull() ?: ""
-        val firstImage = parseJsonArray(recentOrder.foodImages).firstOrNull() ?: ""
-
-        binding.againFoodName.text  = firstName
-        binding.againFoodPrice.text = firstPrice
-        Glide.with(requireContext()).load(firstImage).into(binding.againFoodImage)
-
-        // ── Set orderStatus dot color based on order state ─────────────────
-        val statusColor = when {
-            recentOrder.paymentReceived == true ->
-                android.graphics.Color.parseColor("#4CAF50")  // green  = delivered & paid
-
-            recentOrder.orderAccepted == true ->
-                android.graphics.Color.parseColor("#2196F3")  // blue   = confirmed, out for delivery
-
-            else ->
-                android.graphics.Color.parseColor("#FF9800")  // orange = pending, not yet accepted
-        }
-        binding.orderStatus.setCardBackgroundColor(statusColor)
-    }
-
-    private fun setPreviousBuyItemRecyclerView() {
-        val buyAgainFoodName  = mutableListOf<String>()
-        val buyAgainFoodPrice = mutableListOf<String>()
-        val buyAgainFoodImage = mutableListOf<String>()
-
-        for (i in 1 until listOfOrderItems.size) {
-            val order = listOfOrderItems[i]
-            buyAgainFoodName.add(parseJsonArray(order.foodNames).firstOrNull() ?: "")
-            buyAgainFoodPrice.add(parseJsonArray(order.foodPrices).firstOrNull() ?: "")
-            buyAgainFoodImage.add(parseJsonArray(order.foodImages).firstOrNull() ?: "")
-        }
-
-        val adapter = BuyAgainAdapter(
-            buyAgainFoodName  = buyAgainFoodName,
-            buyAgainFoodPrice = buyAgainFoodPrice,
-            buyAgainFoodImage = buyAgainFoodImage,
-            requireContext    = requireContext()
-        )
-        binding.BuyAgainRecyclerView.layoutManager = LinearLayoutManager(requireContext())
-        binding.BuyAgainRecyclerView.adapter = adapter
-    }
-
-    private fun parseJsonArray(jsonString: String?): List<String> {
-        if (jsonString.isNullOrBlank()) return emptyList()
-        return try {
-            val array = JSONArray(jsonString)
-            List(array.length()) { i -> array.getString(i) }
-        } catch (e: Exception) {
-            emptyList()
-        }
-    }
+    companion object {}
 }
