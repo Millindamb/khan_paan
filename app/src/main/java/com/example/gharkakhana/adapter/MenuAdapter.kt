@@ -4,14 +4,23 @@ import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.gharkakhana.DetailsActivity
 import com.example.gharkakhana.databinding.MenuItemBinding
+import com.example.gharkakhana.model.CartItems
 import com.example.gharkakhana.model.MenuItem
+import com.example.gharkakhana.network.SupabaseClient
+import com.google.firebase.auth.FirebaseAuth
+import io.github.jan.supabase.postgrest.postgrest
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class MenuAdapter(
-    private val menuItems: List<MenuItem>,       // ← fixed constructor syntax
+    private val menuItems: List<MenuItem>,
     private val requireContext: Context,
     private val itemClickListener: OnItemClickListener
 ) : RecyclerView.Adapter<MenuAdapter.MenuViewHolder>() {
@@ -28,44 +37,82 @@ class MenuAdapter(
     }
 
     override fun onBindViewHolder(holder: MenuViewHolder, position: Int) {
-        holder.bind(position)
-    }
+        val item = menuItems[position]
+        holder.bind(item)
 
-    override fun getItemCount(): Int = menuItems.size  // ← fixed (was menuItemsName)
-
-    inner class MenuViewHolder(private val binding: MenuItemBinding) :
-        RecyclerView.ViewHolder(binding.root) {
-
-        init {
-            binding.root.setOnClickListener {
-                val position = adapterPosition
-                if (position != RecyclerView.NO_POSITION) {
-                    itemClickListener.onItemClick(position)  // ← notify listener
-                    openDetailActivity(position)
-                }
-            }
-        }
-
-        private fun openDetailActivity(position: Int) {
-            val menuItem = menuItems[position]
+        // ── Item click → open details ──────────────────────────────────────
+        holder.itemView.setOnClickListener {
+            itemClickListener.onItemClick(position)
             val intent = Intent(requireContext, DetailsActivity::class.java).apply {
-                putExtra("MenuItemName", menuItem.foodName)
-                putExtra("MenuItemPrice", menuItem.foodPrice)
-                putExtra("MenuItemDescription", menuItem.foodDescription)
-                putExtra("MenuItemImage", menuItem.foodimgurl)
-                putExtra("MenuItemIngredients", menuItem.foodIngredients)
+                putExtra("MenuItemName",        item.foodName ?: "")
+                putExtra("MenuItemPrice",       item.foodPrice ?: "")
+                putExtra("MenuItemDescription", item.foodDescription ?: "")
+                putExtra("MenuItemImage",       item.foodimgurl ?: "")
+                putExtra("MenuItemIngredients", item.foodIngredients ?: "")
             }
             requireContext.startActivity(intent)
         }
 
-        fun bind(position: Int) {
-            val menuItem = menuItems[position]
-            binding.menuFoodName.text = menuItem.foodName    // ← fixed field name
-            binding.menuPrice.text = menuItem.foodPrice      // ← fixed field name
+        // ── Add to cart button ─────────────────────────────────────────────
+        holder.binding.menuAddToCart.setOnClickListener {
+            addToCart(item)
+        }
+    }
+
+    private fun addToCart(item: MenuItem) {
+        val userId = FirebaseAuth.getInstance().currentUser?.uid
+
+        if (userId == null) {
+            Toast.makeText(requireContext, "Please login first", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val cartItem = CartItems(
+            userId          = userId,
+            foodName        = item.foodName ?: "",
+            foodPrice       = item.foodPrice ?: "",
+            foodDescription = item.foodDescription ?: "",
+            foodImage       = item.foodimgurl ?: "",
+            foodIngredients = item.foodIngredients ?: "",
+            foodQuantity    = 1
+        )
+
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                SupabaseClient.client.postgrest
+                    .from("cart")
+                    .insert(cartItem)
+
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(
+                        requireContext,
+                        "${item.foodName} added to cart!",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(
+                        requireContext,
+                        "Failed: ${e.message}",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+            }
+        }
+    }
+
+    override fun getItemCount(): Int = menuItems.size
+
+    inner class MenuViewHolder(val binding: MenuItemBinding) :   // ← val so button accessible
+        RecyclerView.ViewHolder(binding.root) {
+
+        fun bind(item: MenuItem) {
+            binding.menuFoodName.text = item.foodName ?: ""
+            binding.menuPrice.text    = item.foodPrice ?: ""
             Glide.with(requireContext)
-                .load(menuItem.foodimgurl)                   // ← direct URL, no Uri.parse
-                .placeholder(com.example.gharkakhana.R.drawable.ic_launcher_background)
-                .error(com.example.gharkakhana.R.drawable.ic_launcher_background)
+                .load(item.foodimgurl)
                 .into(binding.menuImage)
         }
     }

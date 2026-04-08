@@ -13,6 +13,7 @@ import com.denzcoskun.imageslider.models.SlideModel
 import com.example.gharkakhana.R
 import com.example.gharkakhana.MenuBootemSheetFragment
 import com.example.gharkakhana.adapter.MenuAdapter
+import com.example.gharkakhana.adapter.PopularAdapter
 import com.example.gharkakhana.databinding.FragmentHomeBinding
 import com.example.gharkakhana.model.MenuItem                  // ← correct import
 import com.example.gharkakhana.network.SupabaseClient
@@ -107,14 +108,9 @@ class HomeFragment : Fragment() {
     }
 
     private fun setPopularItems(subsetMenuItem: List<MenuItem>) {
-        val adapter = MenuAdapter(
-            menuItems = subsetMenuItem,
+        val adapter = PopularAdapter(
             requireContext = requireContext(),
-            itemClickListener = object : MenuAdapter.OnItemClickListener {
-                override fun onItemClick(position: Int) {
-                    // handle click if needed
-                }
-            }
+            menuItems = subsetMenuItem
         )
         binding.popularRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.popularRecyclerView.adapter = adapter
