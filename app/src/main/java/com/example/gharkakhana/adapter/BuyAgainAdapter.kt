@@ -39,16 +39,6 @@ class BuyAgainAdapter(
 
         holder.bind(name, price, image)
 
-        // ── Open details on item click ─────────────────────────────────────
-        holder.itemView.setOnClickListener {
-            val intent = Intent(requireContext, DetailsActivity::class.java).apply {
-                putExtra("MenuItemName",  name)
-                putExtra("MenuItemImage", image)
-                putExtra("MenuItemPrice", price)
-            }
-            requireContext.startActivity(intent)
-        }
-
         // ── Add to cart on Buy Again button click ──────────────────────────
         holder.binding.buyAgainButton.setOnClickListener {
             addToCart(name, price, image)
