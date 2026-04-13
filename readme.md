@@ -9,7 +9,7 @@ with live order status updates and persistent user profiles.
 ---
 
 ## 👥 Team Members
-
+ 
 | Name               | Role                                                                         |
 |--------------------|------------------------------------------------------------------------------|
 | **Mustafa qureshi** | Frontend developer, UX Design, Banner designer, User Feedback and correction |
@@ -154,44 +154,44 @@ CREATE POLICY "Allow all" ON users FOR ALL TO anon USING (true) WITH CHECK (true
 
 > Add your screenshots to a `Screenshots` folder in the root of your repository.
 > All images will display automatically once uploaded.
+## 📸 Screenshots
 
 <table>
   <tr>
     <td align="center">
-      <img src="https://raw.githubusercontent.com/your-username/your-repo-name/main/Screenshots/Home.jpeg" width="220"/><br/>
+      <img src="https://raw.githubusercontent.com/Millindamb/khan_paan/main/Screenshots/Home.jpeg" width="220"/><br/>
       <b>🏠 Home Screen</b>
     </td>
     <td align="center">
-      <img src="https://raw.githubusercontent.com/your-username/your-repo-name/main/Screenshots/Menu.jpeg" width="220"/><br/>
+      <img src="https://raw.githubusercontent.com/Millindamb/khan_paan/main/Screenshots/Menu.jpeg" width="220"/><br/>
       <b>🍽️ Menu</b>
     </td>
     <td align="center">
-      <img src="https://raw.githubusercontent.com/your-username/your-repo-name/main/Screenshots/Search.jpeg" width="220"/><br/>
+      <img src="https://raw.githubusercontent.com/Millindamb/khan_paan/main/Screenshots/Search.jpeg" width="220"/><br/>
       <b>🔍 Search</b>
     </td>
   </tr>
   <tr>
     <td align="center">
-      <img src="https://raw.githubusercontent.com/your-username/your-repo-name/main/Screenshots/Cart.jpeg" width="220"/><br/>
+      <img src="https://raw.githubusercontent.com/Millindamb/khan_paan/main/Screenshots/Cart.jpeg" width="220"/><br/>
       <b>🛒 Cart</b>
     </td>
     <td align="center">
-      <img src="https://raw.githubusercontent.com/your-username/your-repo-name/main/Screenshots/Checkout.jpeg" width="220"/><br/>
+      <img src="https://raw.githubusercontent.com/Millindamb/khan_paan/main/Screenshots/Checkout.jpeg" width="220"/><br/>
       <b>💳 Checkout</b>
     </td>
     <td align="center">
-      <img src="https://raw.githubusercontent.com/your-username/your-repo-name/main/Screenshots/OrderHistory.jpeg" width="220"/><br/>
+      <img src="https://raw.githubusercontent.com/Millindamb/khan_paan/main/Screenshots/OrderHistory.jpeg" width="220"/><br/>
       <b>📦 Order History</b>
     </td>
   </tr>
   <tr>
     <td align="center" colspan="3">
-      <img src="https://raw.githubusercontent.com/your-username/your-repo-name/main/Screenshots/Profile.jpeg" width="220"/><br/>
+      <img src="https://raw.githubusercontent.com/Millindamb/khan_paan/main/Screenshots/Profile.jpeg" width="220"/><br/>
       <b>👤 Profile</b>
     </td>
   </tr>
 </table>
-
 ---
 
 ## ⚠️ Known Limitations & Future Work
