@@ -12,9 +12,9 @@ with live order status updates and persistent user profiles.
  
 | Name               | Role                                                                         |
 |--------------------|------------------------------------------------------------------------------|
-| **Mustafa qureshi** | Frontend developer, UX Design, Banner designer, User Feedback and correction |
-| **Millind Amb**    | Backend developer, Database, Authentication                                          |
-| **Prince Jaiswal** | UI Figma, Report/Documentation, Database Design, Poster                      |
+| **Mustafa qureshi** | Frontend developer, UX Design |
+| **Millind Amb**    | Backend developer                                      |
+| **Prince Jaiswal** | Frontend developer,UI Figma, Report/Documentation, Database Design, Poster and banner                      |
 | **Ritika Panwar**  | UI Sketches, User Satisfaction, Marketing                                    |
 
 ---
