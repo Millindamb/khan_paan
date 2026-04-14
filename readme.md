@@ -139,16 +139,13 @@ CREATE POLICY "Allow all" ON users FOR ALL TO anon USING (true) WITH CHECK (true
 
 ## 🎬 Demo Video
 
-[![Watch Demo](https://img.youtube.com/vi/YOUR_VIDEO_ID/0.jpg)](https://www.youtube.com/watch?v=YOUR_VIDEO_ID)
+[![Watch Demo]](https://www.youtube.com/watch?v=YOUR_VIDEO_ID](https://drive.google.com/file/d/1Sz8Sd5_-yTm6YqKAyQFL73ZNupHAe4uD/view?usp=drive_link))
 
-> 📌 Replace `YOUR_VIDEO_ID` with your actual YouTube video ID
 
 ---
 
 ## 📸 Screenshots
 
-> Add your screenshots to a `Screenshots` folder in the root of your repository.
-> All images will display automatically once uploaded.
 
 ## 📸 Screenshots
 
