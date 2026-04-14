@@ -10,12 +10,12 @@ with live order status updates and persistent user profiles.
 
 ## 👥 Team Members
  
-| Name               | Role                                                                         |
-|--------------------|------------------------------------------------------------------------------|
-| **Mustafa qureshi** | Frontend developer, UX Design                                               |
-| **Millind Amb**    | Backend developer                                                            |
-| **Prince Jaiswal** | Frontend developer, Database Design ,UI Figma, Documentation and artifacts   |
-| **Ritika Panwar**  | UI Sketches                                                                  |
+| Name               | Role                                                                       |
+|--------------------|----------------------------------------------------------------------------|
+| **Mustafa qureshi** | Frontend developer, UX Design                                              |
+| **Millind Amb**    | Frontend Developer, Backend developer, Database Handler                    |
+| **Prince Jaiswal** | Frontend developer, Database Design ,UI Figma, Documentation and artifacts |
+| **Ritika Panwar**  | UI Sketches                                                                |
 
 ---
 
