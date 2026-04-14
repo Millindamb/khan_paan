@@ -146,35 +146,35 @@ https://drive.google.com/file/d/1Sz8Sd5_-yTm6YqKAyQFL73ZNupHAe4uD/view?usp=drive
 <table>
   <tr>
     <td align="center">
-      <img src="https://raw.githubusercontent.com/Millindamb/khan_paan/main/Screenshots/Home.jpeg" width="220"/><br/>
+      <img src="Screenshots/Home.jpeg" width="220"/><br/>
       <b>🏠 Home Screen</b>
     </td>
     <td align="center">
-      <img src="https://raw.githubusercontent.com/Millindamb/khan_paan/main/Screenshots/Menu.jpeg" width="220"/><br/>
+      <img src="Screenshots/Menu.jpeg" width="220"/><br/>
       <b>🍽️ Menu</b>
     </td>
     <td align="center">
-      <img src="https://raw.githubusercontent.com/Millindamb/khan_paan/main/Screenshots/Search.jpeg" width="220"/><br/>
+      <img src="Screenshots/Search.jpeg" width="220"/><br/>
       <b>🔍 Search</b>
     </td>
   </tr>
   <tr>
     <td align="center">
-      <img src="https://raw.githubusercontent.com/Millindamb/khan_paan/main/Screenshots/Cart.jpeg" width="220"/><br/>
+      <img src="Screenshots/Cart.jpeg" width="220"/><br/>
       <b>🛒 Cart</b>
     </td>
     <td align="center">
-      <img src="https://raw.githubusercontent.com/Millindamb/khan_paan/main/Screenshots/Checkout.jpeg" width="220"/><br/>
+      <img src="Screenshots/Checkout.jpeg" width="220"/><br/>
       <b>💳 Checkout</b>
     </td>
     <td align="center">
-      <img src="https://raw.githubusercontent.com/Millindamb/khan_paan/main/Screenshots/OrderHistory.jpeg" width="220"/><br/>
+      <img src="Screenshots/OrderHistory.jpeg" width="220"/><br/>
       <b>📦 Order History</b>
     </td>
   </tr>
   <tr>
     <td align="center" colspan="3">
-      <img src="https://raw.githubusercontent.com/Millindamb/khan_paan/main/Screenshots/Profile.jpeg" width="220"/><br/>
+      <img src="Screenshots/Profile.jpeg" width="220"/><br/>
       <b>👤 Profile</b>
     </td>
   </tr>
