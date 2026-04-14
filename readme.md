@@ -12,10 +12,10 @@ with live order status updates and persistent user profiles.
  
 | Name               | Role                                                                         |
 |--------------------|------------------------------------------------------------------------------|
-| **Mustafa qureshi** | Frontend developer, UX Design |
-| **Millind Amb**    | Backend developer                                      |
-| **Prince Jaiswal** | Frontend developer,UI Figma, Report/Documentation, Database Design, Poster and banner                      |
-| **Ritika Panwar**  | UI Sketches, User Satisfaction, Marketing                                    |
+| **Mustafa qureshi** | Frontend developer, UX Design                                               |
+| **Millind Amb**    | Backend developer                                                            |
+| **Prince Jaiswal** | Frontend developer, Database Design ,UI Figma, Documentation and artifacts   |
+| **Ritika Panwar**  | UI Sketches                                                                  |
 
 ---
 
@@ -138,19 +138,9 @@ CREATE POLICY "Allow all" ON users FOR ALL TO anon USING (true) WITH CHECK (true
 ---
 
 ## 🎬 Demo Video
-
-[![Watch Demo]](https://www.youtube.com/watch?v=YOUR_VIDEO_ID](https://drive.google.com/file/d/1Sz8Sd5_-yTm6YqKAyQFL73ZNupHAe4uD/view?usp=drive_link))
-
-
+https://drive.google.com/file/d/1Sz8Sd5_-yTm6YqKAyQFL73ZNupHAe4uD/view?usp=drive_link
 ---
 
-## 📸 Screenshots
-
-
-## 📸 Screenshots
-
-> Add your screenshots to a `Screenshots` folder in the root of your repository.
-> All images will display automatically once uploaded.
 ## 📸 Screenshots
 
 <table>
@@ -196,14 +186,10 @@ CREATE POLICY "Allow all" ON users FOR ALL TO anon USING (true) WITH CHECK (true
 ### Current Limitations
 - Passwords are managed entirely by Firebase Auth — no in-app password change
 - Images are stored as public URLs in Supabase Storage — no private image support
-- No real-time order status push notifications — user must manually refresh
 - Payment is Cash on Delivery only — no online payment gateway integrated
-- No order cancellation feature once an order is placed
 
 ### Future Work
-- [ ] Add push notifications for order status updates (FCM)
 - [ ] Integrate online payment (Razorpay / Stripe)
-- [ ] Add order cancellation and refund flow
 - [ ] Add ratings and reviews for menu items
 - [ ] Dark mode support
 - [ ] Multi-language support (Hindi, English)
